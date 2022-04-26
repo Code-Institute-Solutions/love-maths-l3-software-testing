@@ -1,9 +1,12 @@
-// This constant defines the math operations we support
-// TODO: Add support for division
+/**
+ * This main constant defines math operations we support
+ * The `createQuestion` function needs to return an array of: [operand1, operand2, result]
+ * TODO: Add support for subtraction
+ */
 const OPERATIONS = {
-    "addition": {"symbol": "+", "calculate": (a, b) => a + b},
-    "subtraction": {"symbol": "-", "calculate": (a, b) => a - b},
-    "multiplication": {"symbol": "x", "calculate": (a, b) => a * b},
+    "addition": {"symbol": "+", "createQuestion": createAdditionQuestion},
+    "multiplication": {"symbol": "x", "createQuestion": createMultiplicationQuestion},
+    "division": {"symbol": "÷", "createQuestion": createDivisionQuestion},
 };
 
 /**
@@ -11,6 +14,35 @@ const OPERATIONS = {
  */
  function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Generate an addition question
+ */
+function createAdditionQuestion() {
+    const augend = randomInteger(0, 25);
+    const addend = randomInteger(0, 25);
+    const sum = augend + addend;
+    return [augend, addend, sum];
+}
+
+/**
+ * Generate a multiplication question, where the multiplier is not too big
+ */
+function createMultiplicationQuestion() {
+    const multiplicand = randomInteger(0, 25);
+    const multiplier = randomInteger(0, 10);
+    const product = multiplicand * multiplier;
+    return [multiplicand, multiplier, product];
+}
+
+/**
+ * Generate a multiplication question, being the inverse of a multiplication question
+ * NOTE: This is intentionally implemented in a way that might be buggy ;)
+ */
+function createDivisionQuestion() {
+    [multiplicand, multiplier, product] = createMultiplicationQuestion();
+    return [product, multiplier, multiplicand];
 }
 
 /**
@@ -47,9 +79,7 @@ class GameEngine {
         document.getElementById("answer-box").value = "";
         document.getElementById("answer-box").focus();
     
-        this.#operand1 = randomInteger(0, 25);
-        this.#operand2 = randomInteger(0, 25);
-        this.#correctAnswer = OPERATIONS[this.#operation].calculate(this.#operand1, this.#operand2);
+        [this.#operand1, this.#operand2, this.#correctAnswer] = OPERATIONS[this.#operation].createQuestion();
 
         document.getElementById('operand1').textContent = this.#operand1;
         document.getElementById('operand2').textContent = this.#operand2;
