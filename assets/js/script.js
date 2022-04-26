@@ -20,8 +20,8 @@ const OPERATIONS = {
  * Generate an addition question
  */
 function createAdditionQuestion() {
-    const augend = randomInteger(0, 25);
-    const addend = randomInteger(0, 25);
+    const augend = randomInteger(0, 100);
+    const addend = randomInteger(0, 100);
     const sum = augend + addend;
     return [augend, addend, sum];
 }
@@ -30,7 +30,7 @@ function createAdditionQuestion() {
  * Generate a multiplication question, where the multiplier is not too big
  */
 function createMultiplicationQuestion() {
-    const multiplicand = randomInteger(0, 25);
+    const multiplicand = randomInteger(0, 20);
     const multiplier = randomInteger(0, 10);
     const product = multiplicand * multiplier;
     return [multiplicand, multiplier, product];
