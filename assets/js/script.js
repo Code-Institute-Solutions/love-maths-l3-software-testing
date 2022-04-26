@@ -109,7 +109,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     for (let button of document.getElementsByTagName("button")) {
         if (button.dataset.operation === "submit") {
-            button.addEventListener("click", game.checkAnswer);
+            button.addEventListener("click", function() {
+                game.checkAnswer();
+            });
         } else {
             button.addEventListener("click", function() {
                 game.operation = this.dataset.operation;
